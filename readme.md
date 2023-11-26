@@ -1,50 +1,54 @@
-# SLAM Robot
 
-Designed to be used with [robot-viewer](https://gitlab.gwdg.de/cns-group/robot-viewer).
 
-# Notes
+# Computer Vision Course - Robot Viewer
 
+## Installation
+
+Requires Python 3.9. Instsall the following packages:
+```bash
+pip install opencv-contrib-python Pillow numpy imagezmq jsonpickle pyqt5
 ```
-camera.py
-    runs the camera in a separate thread
-    uses a lifo queue to always give the latest picture
-        this is a bit weird, but easy to make thread safe.
-    Important functions:
-        read -> gets the camera image
 
-EKFSLAM.py
-    does EKFSLAM on the landmark detections
-    Important functions:
-        predict, add_landmark, correction -> SLAM
-        get_robot_pose, get_landmark_poses -> get 2D position estomations
+## Running
 
-keypress_listener.py
-    Exactly that.
-    Buffered via stdin.
-    Is called in run loop of main and delivers the keypresses.
-    Important functions:
-        get_keypress
+In `subscriber.py` set the correct IP address of your robot.
 
-opencv_utils.py
-    putBText -> prints text on an image
-
-recorder.py
-    record the images and the driving instructions at that time
-
-robot_controller.py
-    Controlls the actual robot
-    Important functions:
-        move -> give command to move
-        run_ekf_slam -> update SLAM
-                            call as often as feasible
-                            do before any decisions about how to move next
-
-robot_dummy.py
-    Stub for running without EV3
-
-utils.py
-
-vision.py
-    Important functions:
-        detections -> get the landmark positions
+```python
+self.image_hub = imagezmq.ImageHub(open_port='tcp://100.64.0.3:5555', REQ_REP=False)
 ```
+
+In `viewer.py` you can change the size of your world by editing these parameters:
+```python
+self.world_extents = (8.0, 8.0) # world extents, in meters
+self.max_scanner_range = 2.0 # range of camera, in meters
+```
+
+Run the viewer with:
+```bash
+python viewer.py
+```
+
+## Running the Robot Code
+
+Copy the folder `robot-code` to your raspberry pi.
+
+Run with:
+```bash
+python main.py
+```
+
+## Message Format
+
+The message should be of the following format, where m is the number of landmarks measured by the camera, and n the number of landmarks estimated by SLAM:
+
+- landmark_ids: shape (m,)
+- landmark_rs: shape (m,) - distance to landmark
+- landmark_alphas: shape (m,) - angle to landmark
+- landmark_positions: shape (m, 2) - list of (x, y)
+- landmark_estimated_ids: shape (n,)
+- landmark_estimated_positions: shape (n, 2) - list of (x, y)
+- landmark_estimated_stdevs: shape (n, 3) - list of (sqrt(lambda1), sqrt(lambda2), alpha)
+- robot_position: shape (2,) - (x, y)
+- robot_theta: float
+- robot_stdev: shape (3,) - list of (sqrt(lambda1), sqrt(lambda2), alpha)
+
