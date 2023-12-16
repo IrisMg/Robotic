@@ -55,7 +55,7 @@ class Publisher():
         camera_matrix   = np.array(camera_matrix).reshape(3,3)                                  
         dist_coeffs     = [-0.372403,0.157163,-0.00424351,-0.00231644,-0.0522724]               # dist_coeffs
         dist_coeffs     = np.array(dist_coeffs).reshape(5,1)                                   
-        rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(corners                               # rvec, tvec
+        rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(corners                               
                                                                   ,aruco_size
                                                                   ,camera_matrix
                                                                   ,dist_coeffs)
@@ -75,31 +75,11 @@ class Publisher():
                 top_right    = corner[0].ravel()
                 bottom_left  = corner[2].ravel()
                 
-                cv2.putText(img
-                            ,f"x: {round(tvec[0][0],2)} y: {round(tvec[0][1],2)} z: {round(tvec[0][2],2)}"
-                            ,top_right
-                            ,font
-                            ,fontsize
-                            ,color
-                            ,thickness
-                            ,cv2.LINE_AA)               
+                cv2.putText(img ,f"x: {round(tvec[0][0],2)} y: {round(tvec[0][1],2)} z: {round(tvec[0][2],2)}"
+                            ,top_right ,font ,fontsize ,color ,thickness ,cv2.LINE_AA)               
 
-                cv2.putText(img
-                            ,f"ID:{ID}"
-                            ,bottom_left
-                            ,font
-                            ,fontsize
-                            ,color
-                            ,thickness
-                            ,cv2.LINE_AA)
-
-                cv2.drawFrameAxes(img
-                                  ,camera_matrix
-                                  ,dist_coeffs
-                                  ,rvec
-                                  ,tvec
-                                  ,3
-                                  ,2)
+                cv2.putText(img ,f"ID:{ID}" ,bottom_left ,font ,fontsize ,color ,thickness ,cv2.LINE_AA)
+                cv2.drawFrameAxes(img ,camera_matrix ,dist_coeffs ,rvec ,tvec ,3 ,2)
 
     # ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -111,7 +91,7 @@ class Publisher():
         # processing of image before sending would go here.
         # for example, rotation, ROI selection, conversion to grayscale, etc.        
         # -----------------------------------------------------------------------------------------------------------
-        
+
         self.findAruco(image) 
 
         # -----------------------------------------------------------------------------------------------------------

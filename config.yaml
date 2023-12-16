@@ -1,12 +1,12 @@
 robot:
-  wheel_radius: 1
-  width:  1
+  wheel_radius: 5.5                    # raj 1 -> 5
+  width:  16.5                         # raj 1 -> 16.5
   delta_t: 0.1 # in seconds
 
 camera:
-  y_offset: 0
-  z_offset: 0
-  y_angle: 0
+  y_offset: 20                         # raj 0 -> 20
+  z_offset: 1                          # raj 0 -> 1
+  y_angle: 17.5                        # raj 0 -> 17.5
   exposure_time: 60
   gain: 100
 

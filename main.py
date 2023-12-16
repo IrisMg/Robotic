@@ -4,26 +4,26 @@ import numpy as np
 import sys
 import jsonpickle
 import pickle
+
 from message import Message
 from timeit import default_timer as timer
 from numba import typed
-
 from utils.robot_controller import RobotController
-
 from publisher import Publisher
 from utils.keypress_listener import KeypressListener
 from rich import print
 from utils.utils import load_config
-
-
-
 from enum import Enum
+
+
+
 class TaskPart(Enum):
     Manual = 0
     Exploration = 1
     ToStartLine = 2
     Race = 3
     Load = 4
+
 
 
 class Main():
